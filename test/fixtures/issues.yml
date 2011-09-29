@@ -1,0 +1,21 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/Fixtures.html
+
+one:
+  name: MyString
+  email: MyString
+  department: MyString
+  subject: MyString
+  text: MyText
+  reference: MyString
+  to_user: 1
+  status: 1
+
+two:
+  name: MyString
+  email: MyString
+  department: MyString
+  subject: MyString
+  text: MyText
+  reference: MyString
+  to_user: 1
+  status: 1

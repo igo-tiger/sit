@@ -1,0 +1,44 @@
+==Info:
+Main page for guest "http://localhost:3000/issues"
+Main page for staff "http://localhost:3000/staff" (login as igo/igo or abc/abc)
+Page for users edit "http://localhost:3000/users"
+
+
+
+==What I could to do but time out:
+-send mail (Notifier.issue_new(@issue).deliver)
+-design (design added only to main page "staff#index" based on jquery-ui)
+
+
+
+==Questions:
+
+1)erb to haml for form (ex. from app\views\users\haml\_form.html.haml - translate several files and backup there because form not work properly)
+***
+- form_for(@user) do |f|
+  .field
+    = f.label :name
+    %br
+    = f.text_field :name
+***
+as a result - form is not shown..why?
+
+2)sha2 (ex. from app\controllers\issues_controller.rb)
+#I was try this:
+A --- session[:ref] = Digest::SHA2.hexdigest(Time.now.to_s + 'ts')
+#but it seems that it's not pure string, so I try this:
+B --- session[:ref] = session[:session_id]
+#A not working, B work in next use:
+@issue = Issue.new(params[:issue])
+@issue.ref = session[:ref]
+@issue.save
+@issues = Issue.where(:ref=>session[:ref])
+
+3)select_tag (ex. from app\views\staff\show.html.erb)
+***model
+class Issue < ActiveRecord::Base
+  STATUS_LIST = ['?', 'Waiting for Staff Response', 'Waiting for Customer', 'On Hold', 'Cancelled', 'Completed']
+***view
+<%= select_tag :status, Issue::STATUS_LIST %>
+***
+why not work?

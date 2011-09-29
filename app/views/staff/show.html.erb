@@ -1,0 +1,72 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <b>Name:</b>
+  <%= @issue.name %>
+</p>
+
+<p>
+  <b>Email:</b>
+  <%= @issue.email %>
+</p>
+
+<p>
+  <b>Department:</b>
+  <%= @issue.department %>
+</p>
+
+<p>
+  <b>Subject:</b>
+  <%= @issue.subject %>
+</p>
+
+<p>
+  <b>Text:</b>
+  <%= @issue.text %>
+</p>
+
+<p>
+  <b>Status:</b>
+  <%= Issue::STATUS_LIST[@issue.status] %>
+  <%= form_tag "/staff/set_status/#{@issue.id}" do %>
+    <% select_tag :status, Issue::STATUS_LIST %>
+    <select name="status">
+    <% Issue::STATUS_LIST.each do |s| %>
+      <option value="<%= Issue::STATUS_LIST.index(s) %>"><%= s %></option>
+    <% end %>
+    </select>
+    <%= submit_tag "Change" %>
+  <% end %>
+</p>
+
+
+<%= link_to 'Back', staff_path %>
+
+<hr/>
+<h3>Comments:</h3>
+<% @issue.issue_comments.each do |c| %>
+  <p>
+    <span class="small">
+      <% if c.user_id %>
+        [staff]<%= c.user.name %>
+      <% else %>
+        [guest]<%= @issue.name %>
+      <% end %>
+      |
+      <%= c.created_at %>
+    </span>
+    <br/>
+    <%= c.text %>
+  </p>
+  <br/>
+<% end %>
+
+<h3>Add comment:</h3>
+<%= form_tag "/staff/comment_add/#{@issue.id}" do %>
+  <div class="field">
+    <%= text_area_tag :text, params[:text], :rows=>10 %>
+  </div>
+  <div class="actions">
+    <%= submit_tag "Add" %>
+  </div>
+<% end %>

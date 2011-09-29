@@ -1,7 +1,7 @@
 ==Info:
-Main page for guest "http://localhost:3000/issues"
-Main page for staff "http://localhost:3000/staff" (login as igo/igo or abc/abc)
-Page for users edit "http://localhost:3000/users"
+Main page for guest http://localhost:3000/issues
+Main page for staff http://localhost:3000/staff (login as igo/igo or abc/abc)
+Page for users edit http://localhost:3000/users
 
 
 

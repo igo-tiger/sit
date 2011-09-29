@@ -1,18 +1,15 @@
 ==Info:
-Main page for guest http://localhost:3000/issues
-Main page for staff http://localhost:3000/staff (login as igo/igo or abc/abc)
-Page for users edit http://localhost:3000/users
-
-
-
-==What I could to do but time out:
--send mail (Notifier.issue_new(@issue).deliver)
--design (design added only to main page "staff#index" based on jquery-ui)
+Tip: For staff login as igo/igo or abc/abc
+Day 2:
++Navigation menu for guest/staff
++Design based on jQuery-ui
++Mailer for events:
+++guest create issue
+++staff reply on issue
 
 
 
 ==Questions:
-
 1)erb to haml for form (ex. from app\views\users\haml\_form.html.haml - translate several files and backup there because form not work properly)
 ***
 - form_for(@user) do |f|
@@ -34,11 +31,33 @@ B --- session[:ref] = session[:session_id]
 @issue.save
 @issues = Issue.where(:ref=>session[:ref])
 
-3)select_tag (ex. from app\views\staff\show.html.erb)
-***model
-class Issue < ActiveRecord::Base
-  STATUS_LIST = ['?', 'Waiting for Staff Response', 'Waiting for Customer', 'On Hold', 'Cancelled', 'Completed']
-***view
-<%= select_tag :status, Issue::STATUS_LIST %>
-***
-why not work?
+
+
+==Original Task
+Support Issue Tracking
+A simple system for tracking incoming enquiries from customers with an easy to use interface for support staff to communicate with clients.
+
+Introduction
+Please ensure your application uses Rails 3 with HAML as your markup language. If you wish to use a javascript framework, jQuery is the preferred option. The system should be as ORM agnostic as possible, but we use MySQL databases for all our production applications (PGSql will do).
+Build the application in the manner you feel most appropriate to accomplish all the tasks outlined in the specification.
+To make the code 
+When the project is complete, send it to us (either archive or github link). 
+
+Background
+At the moment, host-tastic's support system is entirely email based. When a customer has a support enquiry, they simply email the appropriate department at the addresses provided on the companies website. Recently, the company's support enquiries have increased hugely and new staff are being brought in to handle the issues. Unfortunately, the e-mail system they are using at the moment leaves a lot to be desired and does not work well in a multi-user environment.
+Imagine, we would like customers to be able to enter support tickets directly into our website which staff can then manage and reply to through a management interface. The customer facing side should fit nicely in the companies existing website where as the management/staff interface should be clean, separate and easy to use.
+
+Notes about the customer interface
+- Customers do not need to login to submit a query - they simply will need to provide their name and email address along with the department the issue relates to, the subject of their enquiry and the full body of the request.
+- Each new ticket is assigned a unique reference in the format of ABC-123456. - When a new ticket is added, the customer should receive an email confirming their
+request has been received along with their unique reference. - It should also include a URL which can be used to view the ticket's history and update
+tickets.
+
+Notes about the management interface
+- Each member of staff should have a username & password to use to login to the system - Staff can view a list of all unassigned, open tickets and take ownership. - Staff should be able to reply to the ticket by simply entering their response into a text
+field. As part of the same action, they should also be able to change the owner or status. - All changes to the status and owner should be tracked with each staff reply. - All replies should be e-mailed to the client.
+- Each ticket should be assigned a status - 'Waiting for Staff Response', 'Waiting for Customer', 'On Hold', 'Cancelled' or 'Completed' - further status may wish to be added in the future.
+- When a ticket is first created or updated by the customer, it should be assigned the 'Waiting for Staff Response' status.
+- The interface should have four main views - New unassigned tickets
+- Open Tickets - On hold tickets - Closed Tickets
+- Staff should be able to quickly open up a new ticket by entering it's reference number into a search field. They may also wish to search based on the ticket subject.

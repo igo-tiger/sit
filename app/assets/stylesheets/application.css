@@ -6,6 +6,28 @@
  *= require_tree . 
 */
 
+/* Main */
+html,body {
+  margin:0;
+  padding:0;
+  height:100%;
+  border:none;
+}
+table.main{
+  height:100%;
+  width:100%;
+}
+td.main-left {
+  vertical-align:top;
+  background-color:#eee;
+  width:180px;
+  padding:5px;
+}
+td.main-right {
+  vertical-align:top;
+}
+
+/* Common */
 .small {font-size:9px;}
 fieldset {background:#eee;}
 legend {
@@ -15,11 +37,11 @@ legend {
 }
 
 
+/*smart row*/
+.smart_row_over td {color:#00a500;}
+.smart_row_click td {color:#ffa500;}
 
 /*fix jquery-ui*/
 .ui-state-active {padding:2px;}
 .ui-state-default {padding:2px;}
 
-/*smart row*/
-.smart_row_over td {color:#00a500;}
-.smart_row_click td {color:#ffa500;}

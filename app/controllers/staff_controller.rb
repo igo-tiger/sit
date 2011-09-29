@@ -23,7 +23,12 @@ class StaffController < ApplicationController
       if(search == 0)
         @issues = @issues.all
       end
-      
+      if @issues.count==0
+        flash[:notice] = 'Nothing found.'
+      else
+        flash[:notice] = nil
+      end
+        
     elsif params[:commit]=='Go'
       id = params[:goto].split('-')[1]
       if Issue.exists?(id)
@@ -55,6 +60,8 @@ class StaffController < ApplicationController
       issue = Issue.find(params[:id])
       issue.status = 2
       issue.save
+      
+      Emailer.issue_comment(issue).deliver #send mail
       
       redirect_to "/staff/#{params[:id]}", notice: 'Comment added.'
     end

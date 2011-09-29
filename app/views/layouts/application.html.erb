@@ -10,8 +10,24 @@
   <%= csrf_meta_tags %>
 </head>
 <body>
-
-<%= yield %>
+<table class="main">
+  <tr>
+    <td class="main-left">
+      <% if session[:user_id] %>
+      <%= link_to 'Staff issues', staff_url, :class=>"ui-state-default ui-corner-all" %>
+      <div style="height:5px;"></div>
+      <%= link_to 'Users', users_url, :class=>"ui-state-default ui-corner-all" %>
+      <div style="height:5px;"></div>
+      <%= link_to 'Staff logout', logout_url, :class=>"ui-state-default ui-corner-all" %>
+      <% else %>
+      <%= link_to 'Guest issues', issues_url, :class=>"ui-state-default ui-corner-all" %>
+      <div style="height:5px;"></div>
+      <%= link_to 'Staff login', login_url, :class=>"ui-state-default ui-corner-all" %>
+      <% end %>
+    </td>
+    <td class="main-right"><%= yield %></td>
+  </tr>
+</table>
 
 </body>
 </html>

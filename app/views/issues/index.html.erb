@@ -1,31 +1,59 @@
-<h1>Listing issues</h1>
-<a href="/issues?ref=<%= session[:ref] %>">Your link for save this reference</a>
+<% if notice %>
+  <div class="ui-widget">
+    <div style="padding-left:10px; margin-bottom:5px;" class="ui-state-highlight ui-corner-all"> 
+      <p><span style="float: left; margin-right: .3em;" class="ui-icon ui-icon-info"></span>
+      <%= notice %></p>
+    </div>
+  </div>
+<% end %>
+
+<div class="ui-state-default">
+  Your personal link:<br/>
+  <%= "#{root_url}/issues?ref=#{session[:ref]}" %>
+</div>
+  
+<% if @issues.count>0 %>
 <table>
   <tr>
-    <th>Name</th>
-    <th>Email</th>
-    <th>Department</th>
-    <th>Subject</th>
-    <th>Text</th>
+    <th class="ui-state-active">Name</th>
+    <th class="ui-state-active">Email</th>
+    <th class="ui-state-active">Department</th>
+    <th class="ui-state-active">Subject</th>
+    <th class="ui-state-active">Status</th>
     <th></th>
     <th></th>
     <th></th>
   </tr>
 
 <% @issues.each do |issue| %>
-  <tr>
-    <td><%= issue.name %></td>
-    <td><%= issue.email %></td>
-    <td><%= issue.department %></td>
-    <td><%= issue.subject %></td>
-    <td><%= issue.text %></td>
-    <td><%= link_to 'Show', issue %></td>
-    <td><%= link_to 'Edit', edit_issue_path(issue) %></td>
-    <td><%= link_to 'Destroy', issue, confirm: 'Are you sure?', method: :delete %></td>
+  <tr class="smart_row">
+    <td class="ui-state-default"><%= issue.name %></td>
+    <td class="ui-state-default"><%= issue.email %></td>
+    <td class="ui-state-default"><%= issue.department %></td>
+    <td class="ui-state-default"><%= issue.subject %></td>
+    <td class="ui-state-default"><%= Issue::STATUS_LIST[issue.status] %></td>
+    <td class="ui-state-default">
+      <% link_to 'Show', issue %>
+      <%= link_to issue do %>
+        <span class="ui-icon ui-icon-document" title="Show"></span>
+      <% end %>
+    </td>
+    <td class="ui-state-default">
+      <% link_to 'Edit', edit_issue_path(issue) %>
+      <%= link_to edit_issue_path(issue) do %>
+        <span class="ui-icon ui-icon-pencil" title="Edit"></span>
+      <% end %>
+    </td>
+    <td class="ui-state-default">
+      <% link_to 'Destroy', issue, confirm: 'Are you sure?', method: :delete %>
+      <%= link_to issue, confirm: 'Are you sure?', method: :delete do %>
+        <span class="ui-icon ui-icon-close" title="Delete"></span>
+      <% end %>
+    </td>
   </tr>
 <% end %>
 </table>
+<% end %>
 
-<br />
-
-<%= link_to 'New Issue', new_issue_path %>
+<div style="height:2px;"></div>
+<%= link_to 'New Issue', new_issue_path, :class=>"ui-state-default ui-corner-all" %>

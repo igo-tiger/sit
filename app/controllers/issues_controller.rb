@@ -8,14 +8,17 @@ class IssuesController < ApplicationController
       #session[:ref] = Digest::SHA2.hexdigest(Time.now.to_s + 'ts')
       session[:ref] = session[:session_id]
     end
-    #session[:ref] = nil
-    #session[:ref] = 'b4485e2ac9c2347c0481ef322099295e'
-    #@issues = Issue.all
     if params[:ref]
       session[:ref] = params[:ref]
     end
     @issues = Issue.where(:ref=>session[:ref])
 
+    if @issues.count==0
+      flash[:notice] = "You haven't issues. You can add them by pressing *New Issue*"
+    else
+      flash[:notice] = nil
+    end
+    
     respond_to do |format|
       format.html # index.html.erb
       format.json { render json: @issues }
@@ -26,6 +29,10 @@ class IssuesController < ApplicationController
   # GET /issues/1.json
   def show
     @issue = Issue.find(params[:id])
+    #check access
+    if @issue.ref != session[:ref]
+      return redirect_to issues_url
+    end
 
     respond_to do |format|
       format.html # show.html.erb
@@ -35,6 +42,12 @@ class IssuesController < ApplicationController
   
   # POST /issues/1
   def comment_add
+    issue = Issue.find(params[:id])
+    #check access
+    if issue.ref != session[:ref]
+      return redirect_to issues_url
+    end
+    
     if !params[:text].blank?
       issue_comment = IssueComment.new
       issue_comment.issue_id = params[:id]
@@ -42,7 +55,6 @@ class IssuesController < ApplicationController
       issue_comment.save
       
       #change status of issue
-      issue = Issue.find(params[:id])
       issue.status = 1
       issue.save
     end
@@ -63,6 +75,10 @@ class IssuesController < ApplicationController
   # GET /issues/1/edit
   def edit
     @issue = Issue.find(params[:id])
+    #check access
+    if @issue.ref != session[:ref]
+      return redirect_to issues_url
+    end
   end
 
   # POST /issues
@@ -75,6 +91,7 @@ class IssuesController < ApplicationController
 
     respond_to do |format|
       if @issue.save
+        Emailer.issue_new(@issue).deliver #send mail
         format.html { redirect_to @issue, notice: 'Issue was successfully created.' }
         format.json { render json: @issue, status: :created, location: @issue }
       else
@@ -88,6 +105,10 @@ class IssuesController < ApplicationController
   # PUT /issues/1.json
   def update
     @issue = Issue.find(params[:id])
+    #check access
+    if @issue.ref != session[:ref]
+      return redirect_to issues_url
+    end
 
     respond_to do |format|
       if @issue.update_attributes(params[:issue])
@@ -104,6 +125,11 @@ class IssuesController < ApplicationController
   # DELETE /issues/1.json
   def destroy
     @issue = Issue.find(params[:id])
+    #check access
+    if @issue.ref != session[:ref]
+      return redirect_to issues_url
+    end
+    
     @issue.destroy
 
     respond_to do |format|

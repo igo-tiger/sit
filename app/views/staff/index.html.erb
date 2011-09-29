@@ -1,6 +1,11 @@
-<p id="notice"><%= notice %></p>
-
-<h1>Staff#index</h1>
+<% if notice %>
+  <div class="ui-widget">
+    <div style="padding-left:10px; margin-bottom:5px;" class="ui-state-highlight ui-corner-all"> 
+      <p><span style="float: left; margin-right: .3em;" class="ui-icon ui-icon-info"></span>
+      <%= notice %></p>
+    </div>
+  </div>
+<% end %>
 
 <%= form_tag do %>
   <fieldset>
@@ -69,6 +74,7 @@
   </fieldset>
 <% end %>
 
+<% if @issues.count>0 %>
 <table>
   <tr>
     <th class="ui-state-active">#</th>
@@ -76,7 +82,6 @@
     <th class="ui-state-active">Email</th>
     <th class="ui-state-active">Department</th>
     <th class="ui-state-active">Subject</th>
-    <th class="ui-state-active">Text</th>
     <th class="ui-state-active">To_user</th>
     <th class="ui-state-active">Status</th>
     <th></th>
@@ -91,7 +96,6 @@
     <td class="ui-state-default"><%= issue.email %></td>
     <td class="ui-state-default"><%= issue.department %></td>
     <td class="ui-state-default"><%= issue.subject %></td>
-    <td class="ui-state-default"><%= issue.text %></td>
     <% if issue.to_user>0 %>
       <td class="ui-state-default"><%= User.find(issue.to_user).name %></td>
     <% else %>
@@ -122,3 +126,4 @@
   </tr>
 <% end %>
 </table>
+<% end %>

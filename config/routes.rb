@@ -1,5 +1,4 @@
 Sit::Application.routes.draw do
-  #get "staff/index"
   get 'staff' => 'staff#index'
   get 'staff/:id' => 'staff#show'
   post 'staff/comment_add/:id' => 'staff#comment_add'
@@ -13,15 +12,17 @@ Sit::Application.routes.draw do
   controller :sessions do
     get 'login' => :new
     post 'login' => :create
-    delete 'logout' => :destroy
+    get 'logout' => :destroy
   end
   
   resources :issue_comments
-
   resources :issues
-
   resources :users
+  
+  #default page
+  root :to => 'issues#index'
 
+  
   # The priority is based upon order of creation:
   # first created -> highest priority.
 

@@ -1,0 +1,60 @@
+- if notice
+  .ui-widget
+    .ui-state-highlight.ui-corner-all{:style => "padding-left:10px; margin-bottom:5px;"}
+      %p
+        %span.ui-icon.ui-icon-info{:style => "float: left; margin-right: .3em;"}
+        = notice
+        
+%table
+  %tr
+    %td.ui-state-active Name:
+    %td.ui-state-default= @issue.name
+  %tr
+    %td.ui-state-active Email:
+    %td.ui-state-default= @issue.email
+  %tr
+    %td.ui-state-active Department:
+    %td.ui-state-default= @issue.department
+  %tr
+    %td.ui-state-active Subject:
+    %td.ui-state-default= @issue.subject
+  %tr
+    %td.ui-state-active Text:
+    %td.ui-state-default= @issue.text
+  %tr
+    %td.ui-state-active Status:
+    %td.ui-state-default
+      - Issue::STATUS_LIST[@issue.status]
+      = form_tag "/staff/set_status/#{@issue.id}" do
+        - select_tag :status, Issue::STATUS_LIST
+        %select{:name => "status"}
+          - Issue::STATUS_LIST.each do |s|
+            <option value="#{Issue::STATUS_LIST.index(s)}"
+            - if Issue::STATUS_LIST.index(s).eql?(@issue.status)
+              selected
+            >#{s}
+        = submit_tag "Change", :class=>"ui-button ui-state-default ui-corner-all"
+        
+%div{:style => "height:2px;"}
+= link_to 'Back', staff_path, :class=>"ui-state-default ui-corner-all"
+
+%hr/
+%h3 Comments:
+- @issue.issue_comments.each do |c|
+  .ui-state-default{:style => "margin:2px 0;"}
+    %span.small
+      - if c.user_id
+        [staff]#{c.user.name}
+      - else
+        [guest]#{@issue.name}
+      |
+      \#{c.created_at}
+    %br/
+    = c.text
+    
+%h3 Add comment:
+= form_tag "/staff/comment_add/#{@issue.id}" do
+  .field
+    = text_area_tag :text, params[:text], :rows=>10, :cols=>40
+  .actions
+    = submit_tag "Add", :class=>"ui-button ui-state-default ui-corner-all"

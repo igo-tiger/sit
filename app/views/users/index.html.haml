@@ -1,0 +1,31 @@
+- if notice
+  .ui-widget
+    .ui-state-highlight.ui-corner-all.extra{:style=>"padding-left:10px; margin-bottom:5px;"}
+      %p
+        %span.ui-icon.ui-icon-info.extra{:style=>"float: left; margin-right: .3em;"}
+        = notice
+
+%h1 Listing users
+
+%table
+  %tr
+    %th.ui-state-active Name
+    %th
+    %th
+    %th
+
+  - @users.each do |user|
+    %tr
+      %td.ui-state-default= user.name
+      %td.ui-state-default
+        = link_to user do
+          %span.ui-icon.ui-icon-document.extra{:title=>"Show"}
+      %td.ui-state-default
+        = link_to edit_user_path(user) do
+          %span.ui-icon.ui-icon-pencil.extra{:title=>"Edit"}
+      %td.ui-state-default
+        = link_to user, confirm: 'Are you sure?', method: :delete do
+          %span.ui-icon.ui-icon-close.extra{:title=>"Delete"}
+
+.extra{:style=>"height:2px;"}
+= link_to 'New User', new_user_path, :class=>"ui-state-default ui-corner-all"

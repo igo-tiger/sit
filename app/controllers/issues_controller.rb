@@ -5,10 +5,12 @@ class IssuesController < ApplicationController
   # GET /issues.json
   def index
     if session[:ref].nil?
+      #create reference
       #session[:ref] = Digest::SHA2.hexdigest(Time.now.to_s + 'ts')
       session[:ref] = session[:session_id]
     end
     if params[:ref]
+      #get reference from url
       session[:ref] = params[:ref]
     end
     @issues = Issue.where(:ref=>session[:ref])

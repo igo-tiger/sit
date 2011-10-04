@@ -1,0 +1,18 @@
+- if flash[:alert]
+  .ui-widget
+    .ui-state-error.ui-corner-all{:style=>"padding: 0 .7em; margin-bottom: 5px;"}
+      %p
+        %span.ui-icon.ui-icon-alert{:style=>"float: left; margin-right: .3em;"}
+        = flash[:alert]
+
+= form_tag do
+  %fieldset{:style=>"width: 0;"}
+    %legend Please Log In
+    .ui-state-default
+      %label{:for=>"name"} Name:
+      = text_field_tag :name, params[:name]
+    .ui-state-default{:style=>"margin-top: 2px;"}
+      %label{:for=>"password"} Password:
+      = password_field_tag :password, params[:password]
+    %div
+      = submit_tag "Login", :class=>"ui-button ui-state-default ui-corner-all"

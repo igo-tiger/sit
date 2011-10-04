@@ -1,26 +1,14 @@
 ==Info:
-Tip: For staff login as igo/igo or abc/abc
-Day 2:
-+Navigation menu for guest/staff
-+Design based on jQuery-ui
-+Mailer for events:
-++guest create issue
-++staff reply on issue
+Login as staff: igo/igo or abc/abc
+Design based on jQuery-ui
+Mailer for events:
++guest create issue
++staff reply on issue
 
 
 
 ==Questions:
-1)erb to haml for form (ex. from app\views\users\haml\_form.html.haml - translate several files and backup there because form not work properly)
-***
-- form_for(@user) do |f|
-  .field
-    = f.label :name
-    %br
-    = f.text_field :name
-***
-as a result - form is not shown..why?
-
-2)sha2 (ex. from app\controllers\issues_controller.rb)
+1)sha2 (ex. from app\controllers\issues_controller.rb)
 #I was try this:
 A --- session[:ref] = Digest::SHA2.hexdigest(Time.now.to_s + 'ts')
 #but it seems that it's not pure string, so I try this:
@@ -33,7 +21,7 @@ B --- session[:ref] = session[:session_id]
 
 
 
-==Original Task
+==Original Task:
 Support Issue Tracking
 A simple system for tracking incoming enquiries from customers with an easy to use interface for support staff to communicate with clients.
 

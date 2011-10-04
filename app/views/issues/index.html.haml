@@ -1,0 +1,43 @@
+- if notice
+  .ui-widget
+    .ui-state-highlight.ui-corner-all{:style => "padding-left: 10px; margin-bottom: 5px;"}
+      %p
+        %span.ui-icon.ui-icon-info{:style => "float: left; margin-right: .3em;"}
+        = notice
+        
+- if session[:ref]
+  .ui-state-default
+    Your personal link:
+    %br/
+    = "#{root_url}/issues?ref=#{session[:ref]}"
+    
+- if @issues.count>0
+  %table
+    %tr
+      %th.ui-state-active Name
+      %th.ui-state-active Email
+      %th.ui-state-active Department
+      %th.ui-state-active Subject
+      %th.ui-state-active Status
+      %th
+      %th
+      %th
+    - @issues.each do |issue|
+      %tr.smart_row
+        %td.ui-state-default= issue.name
+        %td.ui-state-default= issue.email
+        %td.ui-state-default= issue.department
+        %td.ui-state-default= issue.subject
+        %td.ui-state-default= Issue::STATUS_LIST[issue.status]
+        %td.ui-state-default
+          = link_to issue do
+            %span.ui-icon.ui-icon-document{:title => "Show"}
+        %td.ui-state-default
+          = link_to edit_issue_path(issue) do
+            %span.ui-icon.ui-icon-pencil{:title => "Edit"}
+        %td.ui-state-default
+          = link_to issue, confirm: 'Are you sure?', method: :delete do
+            %span.ui-icon.ui-icon-close{:title => "Delete"}
+            
+%div{:style => "height:2px;"}
+= link_to 'New Issue', new_issue_path, :class=>"ui-state-default ui-corner-all"

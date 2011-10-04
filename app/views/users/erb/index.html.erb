@@ -1,0 +1,37 @@
+<h1>Listing users</h1>
+
+<table>
+  <tr>
+    <th class="ui-state-active">Name</th>
+    <th></th>
+    <th></th>
+    <th></th>
+  </tr>
+
+<% @users.each do |user| %>
+  <tr>
+    <td class="ui-state-default"><%= user.name %></td>
+    <td class="ui-state-default">
+      <% link_to 'Show', user %>
+      <%= link_to user do %>
+        <span class="ui-icon ui-icon-document" title="Show"></span>
+      <% end %>
+    </td>
+    <td class="ui-state-default">
+      <% link_to 'Edit', edit_user_path(user) %>
+      <%= link_to edit_user_path(user) do %>
+        <span class="ui-icon ui-icon-pencil" title="Edit"></span>
+      <% end %>
+    </td>
+    <td class="ui-state-default">
+      <% link_to 'Destroy', user, confirm: 'Are you sure?', method: :delete %>
+      <%= link_to user, confirm: 'Are you sure?', method: :delete do %>
+        <span class="ui-icon ui-icon-close" title="Delete"></span>
+      <% end %>
+    </td>
+  </tr>
+<% end %>
+</table>
+
+<div style="height:2px;"></div>
+<%= link_to 'New User', new_user_path, :class=>"ui-state-default ui-corner-all" %>

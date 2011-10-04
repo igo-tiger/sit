@@ -1,0 +1,30 @@
+= form_for(@issue) do |f|
+  - if @issue.errors.any?
+    #error_explanation
+      %h2
+        = pluralize(@issue.errors.count, "error")
+        prohibited this issue from being saved:
+      %ul
+        - @issue.errors.full_messages.each do |msg|
+          %li= msg
+  %table
+    %tr
+      %td.ui-state-active= f.label :name
+      %td.ui-state-default= f.text_field :name
+    %tr
+      %td.ui-state-active= f.label :email
+      %td.ui-state-default= f.text_field :email
+    %tr
+      %td.ui-state-active= f.label :department
+      %td.ui-state-default= f.select :department, Issue::DEPARTMENT_LIST, :prompt => 'Select department'
+    %tr
+      %td.ui-state-active= f.label :subject
+      %td.ui-state-default= f.text_field :subject
+    %tr
+      %td.ui-state-active= f.label :text
+      %td.ui-state-default= f.text_area :text, :rows=>10, :cols=>40
+    %tr
+      %td
+      %td
+  = f.submit :class=>"ui-button ui-state-default ui-corner-all"
+%div{:style => "height:5px;"}

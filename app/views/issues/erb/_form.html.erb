@@ -1,0 +1,43 @@
+<%= form_for(@issue) do |f| %>
+  <% if @issue.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@issue.errors.count, "error") %> prohibited this issue from being saved:</h2>
+
+      <ul>
+      <% @issue.errors.full_messages.each do |msg| %>
+        <li><%= msg %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <table>
+    <tr>
+      <td class="ui-state-active"><%= f.label :name %></td>
+      <td class="ui-state-default"><%= f.text_field :name %></td>
+    </tr>
+    <tr>
+      <td class="ui-state-active"><%= f.label :email %></td>
+      <td class="ui-state-default"><%= f.text_field :email %></td>
+    </tr>
+    <tr>
+      <td class="ui-state-active"><%= f.label :department %></td>
+      <td class="ui-state-default"><%= f.select :department, Issue::DEPARTMENT_LIST, :prompt => 'Select department' %></td>
+    </tr>
+    <tr>
+      <td class="ui-state-active"><%= f.label :subject %></td>
+      <td class="ui-state-default"><%= f.text_field :subject %></td>
+    </tr>
+    <tr>
+      <td class="ui-state-active"><%= f.label :text %></td>
+      <td class="ui-state-default"><%= f.text_area :text, :rows=>10, :cols=>40 %></td>
+    </tr>
+    <tr>
+      <td></td>
+      <td></td>
+    </tr>
+  </table>
+  
+  <%= f.submit :class=>"ui-button ui-state-default ui-corner-all" %>
+<% end %>
+<div style="height:5px;"></div>

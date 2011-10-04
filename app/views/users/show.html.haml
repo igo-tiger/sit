@@ -1,0 +1,14 @@
+%table
+  %tr
+    %td.ui-state-active Name:
+    %td.ui-state-default= @user.name
+  %tr
+    %td.ui-state-active Hashed password:
+    %td.ui-state-default= @user.hashed_password
+  %tr
+    %td.ui-state-active Salt:
+    %td.ui-state-default= @user.salt
+
+.extra{:style=>"height:2px;"}
+= link_to 'Edit', edit_user_path(@user), :class=>"ui-state-default ui-corner-all" |
+= link_to 'Back', users_path, :class=>"ui-state-default ui-corner-all"

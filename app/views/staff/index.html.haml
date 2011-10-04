@@ -1,0 +1,90 @@
+- if notice
+  .ui-widget
+    .ui-state-highlight.ui-corner-all{:style => "padding-left:10px; margin-bottom:5px;"}
+      %p
+        %span.ui-icon.ui-icon-info{:style => "float: left; margin-right: .3em;"}
+        = notice
+        
+= form_tag do
+  %fieldset
+    %legend Search
+    %table
+      %tr
+        %td.ui-state-active Department
+        %td.ui-state-default
+          %select{:name => "department"}
+            %option{:value => "-1"} ---
+            - Issue::DEPARTMENT_LIST.each do |d|
+              <option value="#{d}"
+              - if params[:department]==d
+                selected
+              >#{d}
+      %tr
+        %td.ui-state-active Subject
+        %td.ui-state-default= text_field_tag :subject, params[:subject]
+      %tr
+        %td.ui-state-active To_user
+        %td.ui-state-default
+          %select{:name => "to_user"}
+            %option{:value => "-1"} ---
+            - User.all.each do |u|
+              <option value="#{u.id}"
+              - if params[:to_user]==u.id.to_s
+                selected
+              >#{u.name}
+      %tr
+        %td.ui-state-active Status
+        %td.ui-state-default
+          %select{:name => "status"}
+            %option{:value => "-1"} ---
+            - Issue::STATUS_LIST.each do |s|
+              <option value="#{Issue::STATUS_LIST.index(s)}"
+              - if params[:status]==Issue::STATUS_LIST.index(s).to_s
+                selected
+              >#{s}
+    .actions
+      = submit_tag "Search", :class=>"ui-button ui-state-default ui-corner-all"
+      
+= form_tag do
+  %fieldset
+    %legend Go to "ABC-123456"
+    = text_field_tag :goto, params[:goto]
+    = submit_tag "Go", :class=>"ui-button ui-state-default ui-corner-all"
+    
+- if @issues.count>0
+  %table
+    %tr
+      %th.ui-state-active #
+      %th.ui-state-active Name
+      %th.ui-state-active Email
+      %th.ui-state-active Department
+      %th.ui-state-active Subject
+      %th.ui-state-active To_user
+      %th.ui-state-active Status
+      %th
+      %th
+      %th
+    - @issues.each do |issue|
+      %tr.smart_row
+        %td.ui-state-default
+          = "#{issue.department}-#{issue.id}"
+        %td.ui-state-default= issue.name
+        %td.ui-state-default= issue.email
+        %td.ui-state-default= issue.department
+        %td.ui-state-default= issue.subject
+        - if issue.to_user>0
+          %td.ui-state-default= User.find(issue.to_user).name
+        - else
+          %td.ui-state-default
+        %td.ui-state-default= Issue::STATUS_LIST[issue.status]
+        %td.ui-state-default
+          = link_to '/staff/'+issue.id.to_s do
+            %span.ui-icon.ui-icon-document{:title => "Show"}
+        %td.ui-state-default
+          - if issue.to_user==session[:user_id]
+            = link_to '/staff/unassign/'+issue.id.to_s do
+              %span.ui-icon.ui-icon-minus{:title => "Unassign"}
+          - else
+            = link_to '/staff/assign/'+issue.id.to_s do
+              %span.ui-icon.ui-icon-plus{:title => "Assign"}
+              

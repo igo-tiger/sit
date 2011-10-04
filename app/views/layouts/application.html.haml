@@ -1,0 +1,25 @@
+!!!
+%html{:lang => "en", "xml:lang" => "en", :xmlns => "http://www.w3.org/1999/xhtml"}
+  %head
+    %title Sit
+    %meta{:content => "text/html; charset=utf-8", "http-equiv" => "Content-Type"}/
+    = stylesheet_link_tag    "application"
+    = stylesheet_link_tag    "jquery-ui"
+    = javascript_include_tag "application"
+    = javascript_include_tag "jquery-ui"
+    = csrf_meta_tags
+  %body
+    %table.main
+      %tr
+        %td.main-left
+          - if session[:user_id]
+            = link_to 'Staff issues', staff_url, :class=>"ui-state-default ui-corner-all"
+            %div{:style => "height:5px;"}
+            = link_to 'Users', users_url, :class=>"ui-state-default ui-corner-all"
+            %div{:style => "height:5px;"}
+            = link_to 'Staff logout', logout_url, :class=>"ui-state-default ui-corner-all"
+          - else
+            = link_to 'Guest issues', issues_url, :class=>"ui-state-default ui-corner-all"
+            %div{:style => "height:5px;"}
+            = link_to 'Staff login', login_url, :class=>"ui-state-default ui-corner-all"
+        %td.main-right= yield
